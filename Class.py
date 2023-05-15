@@ -219,7 +219,7 @@ class Garage(object):
         path: Path = Path(fichier)
         stream = path.open('r')
         #deserialiser le fichier vers un objet etudiant
-        strjson=stream.read()
+        strjson = stream.read()
         reponse: object = jsonpickle.decode(strjson)
         #fermer le stream
         stream.close()
@@ -247,11 +247,11 @@ class Garage(object):
                 pass
 
 
-test1 = Personne("Gsdghsghfgh", "Gsfghfgdhfxg")
-print(test1)
-test2 = Employe("GAFafdsdfg", "Oksdfdg", 4, "ok")
-print(test2)
-test3 = Client("GAFafdsdfg", "Oksdfdg", "okk", "ok")
-print(test3)
-test4 = Reparation(2, "ROUILLE", 10.54, "3 avril", 4)
-print(test4)
+#test1 = Personne("Gsdghsghfgh", "Gsfghfgdhfxg")
+#print(test1)
+#test2 = Employe("GAFafdsdfg", "Oksdfdg", 4, "ok")
+#print(test2)
+#test3 = Client("GAFafdsdfg", "Oksdfdg", "okk", "ok")
+#print(test3)
+#test4 = Reparation(2, "ROUILLE", 10.54, "3 avril", 4)
+#print(test4)
