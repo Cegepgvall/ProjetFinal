@@ -8,7 +8,7 @@ class Personne(object):
     def getnom(self):
         return self.__nom
     def setnom(self, value):
-        if re.match(r'^[A-Z][a-zA-Z]{6,20}$', value):
+        if re.match(r'^[A-Z][a-zA-Z]{6,20}$', value):   # premiere lettre majuscule, 6 a 20 charactere
             self.__nom = value
         else:
             raise ValueError("Doit commencer par une lettre majuscule et d'une longueur de 6 à 20 lettres alphabétiques")
@@ -16,7 +16,7 @@ class Personne(object):
     def getprenom(self):
         return self.__prenom
     def setprenom(self, value):
-        if re.match(r'^[A-Z][a-zA-Z]{6,20}$', value):
+        if re.match(r'^[A-Z][a-zA-Z]{6,20}$', value):   # premiere lettre majuscule, 6 a 20 charactere
             self.__prenom = value
         else:
             raise ValueError("Doit commencer par une lettre majuscule et d'une longueur de 6 à 20 lettres alphabétiques")
@@ -28,6 +28,7 @@ class Personne(object):
 
     # Méthode d'affichage
     def __str__(self)-> str:
+        # affiche ligne par ligne
         return f"Nom: {self.getnom()}\nPrénom: {self.getprenom()}\n"
 
 class Employe(Personne):
@@ -44,11 +45,12 @@ class Employe(Personne):
 
     # Constructeur
     def __init__(self, nom, prenom, code: int = 0, fonction: str = ""):
-        super().__init__(nom, prenom)
+        super().__init__(nom, prenom)   # appel super pour héritage
         self.setcode(code)
         self.setfonction(fonction)
     # Méthode d'affichage
     def __str__(self):
+        # affiche ligne par ligne + super pour str du parent
         return f"Employer\n{super().__str__()}Code: {self.getcode()}\nFonction: {self.getfonction()}\n"
 
 class Client(Personne):
@@ -67,9 +69,11 @@ class Client(Personne):
     def __init__(self, nom, prenom, telephone: str = "", courriel: str = ""):
         self.settelephone(telephone)
         self.setcourriel(courriel)
-        super(Client, self).__init__(nom, prenom)
+        super(Client, self).__init__(nom, prenom)   # appel super pour héritage
+
     # Méthode d'affichage
     def __str__(self):
+        # affiche ligne par ligne + super pour str du parent
         return f"Client\n{super().__str__()}Telephone: {self.gettelephone()}\nCourriel: {self.getcourriel()}\n"
 
 class Reparation(object):
@@ -109,6 +113,7 @@ class Reparation(object):
 
     # Méthodes d'affichage
     def __str__(self)-> str:
+        # affiche ligne par ligne
         return f"Code: {self.getcode()}\nDescription: {self.getdescription()}\nMontant: {self.getmontant()}\nDate: {self.getdatereparation()}\nCode Employer: {self.getcodeemploye()}\n"
 
 class Voiture(object):
@@ -160,8 +165,8 @@ class Voiture(object):
 
     # Méthodes utilitaires
     def ajouterreparation(self, element: Reparation)->None:
-        liste = []
-        liste.append(element)
+        # append a l'attribut reparation de Voiture
+        self.__reparations.append(element)
 
 class Garage(object):
     # Méthode d'access
@@ -192,8 +197,6 @@ class Garage(object):
 
     # Constructeur
     def __init__(self, nom: str = "", adresse: str = "", telephone: str = "", employes: list[Employe] = None, voitures: list[Voiture] = None):
-        listeEmployes = []  # liste des employer
-        listeVoiture = []   # liste des voitures
         self.setnom(nom)
         self.setadresse(adresse)
         self.settelephone(telephone)
@@ -227,10 +230,11 @@ class Garage(object):
         return reponse
 
     def ajoutervoiture(self, element:Voiture)-> None:
+        # ajoute un element a lattribut de type list nommé voitures
         self.__voitures.append(element)
 
     def getvoiture(self, numvoiture: str)-> Voiture:
-        for element in listeVoiture:
+        for element in self.__voitures:
             if element.getnumplaque == numvoiture:
                 return element
             else:
@@ -240,7 +244,7 @@ class Garage(object):
         self.__voitures.append(numvoiture, reparation)
 
     def getreparations(self, numvoiture: str)-> list[Reparation]:
-        for element in Voiture.getreparations():
+        for element in self.__voitures.getreparations():
             if element.getnumplaque == numvoiture:
                 return element
             else:
