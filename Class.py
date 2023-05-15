@@ -2,6 +2,7 @@
 import re
 import json
 import jsonpickle
+import pathlib
 
 class Personne(object):
     # Méthode d'access
@@ -43,13 +44,13 @@ class Employe(Personne):
         self.__fonction = value
 
     # Constructeur
-    def __init__(self, setnom, setprenom, code: int = 0, fonction: str = ""):
-        super().__init__(setnom)
-        super().__init__(setprenom)
+    def __init__(self, nom, prenom, code: int = 0, fonction: str = ""):
+        super().__init__(nom, prenom)
         self.setcode(code)
         self.setfonction(fonction)
     # Méthode d'affichage
-        return f"{super().__str__(getnom)}\n{super().__str__(getprenom)}\nCode: {self.__getcode()}\nFonction: {self.getFonction()}\n"
+    def __str__(self):
+        return f"Employer\n{super().__str__()}Code: {self.getcode()}\nFonction: {self.getfonction()}\n"
 
 class Client(Personne):
     # Méthode d'access
@@ -64,13 +65,13 @@ class Client(Personne):
         self.__courriel = value
 
     # Constructeur
-    def __init__(self, setnom, setprenom, telephone: str = "", courriel: str = ""):
-        super().__init__(setnom)
-        super().__init__(setprenom)
+    def __init__(self, nom, prenom, telephone: str = "", courriel: str = ""):
         self.settelephone(telephone)
         self.setcourriel(courriel)
+        super(Client, self).__init__(nom, prenom)
     # Méthode d'affichage
-        return f"{super().__str__(getnom)}\n{super().__str__(getprenom)}\nTelephone: {self.__gettelephone()}\nCourriel: {self.getcourriel()}\n"
+    def __str__(self):
+        return f"Client\n{super().__str__()}Telephone: {self.gettelephone()}\nCourriel: {self.getcourriel()}\n"
 
 class Reparation(object):
     # Méthodes d'access
@@ -206,9 +207,9 @@ class Garage(object):
     #ouvrir le fichier (creer le stream)
         path: Path = Path(fichier)
         if path.is_file():
-            stream=path.open('w')
+            stream = path.open('w')
             #serialiser la valeur vers le fichier
-            json.dump(element, stream, indent=4, separators= (',',':'))
+            json.dump(element, stream)
             #fermer le stream
             stream.flush()
             stream.close()
@@ -233,13 +234,22 @@ class Garage(object):
     def ajoutervoiture(self, element:Voiture)-> None:
         self.__voitures.append(element)
 
-    def getvoiture(self, plaquevoiture: str)-> Voiture:
+    def getvoiture(self, numvoiture: str)-> Voiture:
+        pass
+
+    def ajouterreparation(self, numvoiture: str, reparation: object):
+        pass
+
+    def getreparations(self, numvoiture: str)-> list[Reparation]:
+        pass
 
 
 
 test1 = Personne("Gsdghsghfgh", "Gsfghfgdhfxg")
 print(test1)
-#test2 = Employe("GAFafdsdfg", "Oksdfdg", "okk", "ok")
-#print(test2)
-test3 = Reparation(2, "ROUILLE", 10.54, "3 avril", 4)
+test2 = Employe("GAFafdsdfg", "Oksdfdg", "okk", "ok")
+print(test2)
+test3 = Client("GAFafdsdfg", "Oksdfdg", "okk", "ok")
 print(test3)
+test4 = Reparation(2, "ROUILLE", 10.54, "3 avril", 4)
+print(test4)
