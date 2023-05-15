@@ -109,6 +109,125 @@ class Reparation(object):
     def __str__(self)-> str:
         return f"Code: {self.getcode()}\nDescription: {self.getdescription()}\nMontant: {self.getmontant()}\nDate: {self.getdatereparation()}\nCode Employer: {self.getcodeemploye()}\n"
 
+class Voiture(object):
+    # Méthodes d'access
+    def getnumeroplaque(self):
+        return self.__numeroplaque
+    def setnumeroplaque(self, value):
+        self.__numeroplaque = value
+
+    def getmarque(self):
+        return self.__marque
+    def setmarque(self, value):
+        self.__marque = value
+
+    def getmodele(self):
+        return self.__modele
+    def setmodele(self, value):
+        self.__modele = value
+
+    def getcouleur(self):
+        return self.__couleur
+    def setcouleur(self, value):
+        self.__couleur = value
+
+    def getannee(self):
+        return self.__annee
+    def setannee(self, value):
+        self.__annee = value
+
+    def getproprietaire(self):
+        return self.__proprietaire
+    def setproprietaire(self, value):
+        self.__proprietaire = value
+
+    def getreparations(self):
+        return self.__reparations
+    def setreparations(self, value):
+        self.__reparations = value
+
+    # Constructeur
+    def __init__(self, numeroplaque: str = "", marque: str = "", modele: str = "", couleur: str = "", annee: int = 0, proprietaire:Client = None, reparations: list[Reparation] = None):
+        self.setnumeroplaque(numeroplaque)
+        self.setmarque(marque)
+        self.setmodele(modele)
+        self.setcouleur(couleur)
+        self.setannee(annee)
+        self.setproprietaire(proprietaire)
+        self.setreparations(reparations)
+
+    # Méthodes utilitaires
+    def ajouterreparation(self, element: Reparation)->None:
+        liste = []
+        liste.append(element)
+
+class Garage(object):
+    # Méthode d'access
+    def getnom(self):
+        return self.__nom
+    def setnom(self, value):
+        self.__nom = value
+
+    def getadresse(self):
+        return self.__adresse
+    def setadresse(self, value):
+        self.__adresse = value
+
+    def gettelephone(self):
+        return self.__telephone
+    def settelephone(self, value):
+        self.__telephone = value
+
+    def getemployes(self):
+        return self.__employes
+    def setemployes(self, value):
+        self.__employes = value
+
+    def getvoitures(self):
+        return self.__voitures
+    def setvoitures(self, value):
+        self.__voitures = value
+
+    # Constructeur
+    def __init__(self, nom: str = "", adresse: str = "", telephone: str = "", employes: list[Employe] = None, voitures: list[Voiture] = None):
+        self.setnom(nom)
+        self.setadresse(adresse)
+        self.settelephone(telephone)
+        self.setemployes(employes)
+        self.setvoitures(voitures)
+        listeEmployes = []
+        listeVoiture = []
+
+    # Méthodes utilitaire
+    def serialisergarage(self, element: object, fichier: str)-> None:
+    #ouvrir le fichier (creer le stream)
+        path: Path = Path(fichier)
+        if path.is_file():
+            stream=path.open('w')
+            #serialiser la valeur vers le fichier
+            json.dump(element, stream, indent=4, separators= (',',':'))
+            #fermer le stream
+            stream.flush()
+            stream.close()
+        else:
+            raise Exception('fichier incorrect')
+
+
+    def deserialisergarage(self, fichier: str)-> object:
+        #ouvrir le fichier (creer le stream)
+        path: Path = Path(self.fichier)
+        if path.exists():
+            stream = path.open('r')
+            #deserialiser le fichier vers un objet liste de compte
+            liste:list = json.load(stream)
+            #fermer le stream
+            stream.close()
+            #retourner le resultat
+            return liste
+        else:
+            raise Exception('fichier inexistant')
+
+    def ajoutervoiture(self, element:Voiture)-> None:
 
 
 test1 = Personne("Gsdghsghfgh", "Gsfghfgdhfxg")
