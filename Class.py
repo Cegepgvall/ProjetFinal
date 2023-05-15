@@ -1,8 +1,7 @@
 # Gabriel Vallieres, 1536504
 import re
-import json
 import jsonpickle
-import pathlib
+from pathlib import Path
 
 class Personne(object):
     # Méthode d'access
@@ -193,61 +192,64 @@ class Garage(object):
 
     # Constructeur
     def __init__(self, nom: str = "", adresse: str = "", telephone: str = "", employes: list[Employe] = None, voitures: list[Voiture] = None):
+        listeEmployes = []  # liste des employer
+        listeVoiture = []   # liste des voitures
         self.setnom(nom)
         self.setadresse(adresse)
         self.settelephone(telephone)
         self.setemployes(employes)
         self.setvoitures(voitures)
-        listeEmployes = []
-        listeVoiture = []
 
     # Méthodes utilitaire
     @classmethod
     def serialisergarage(cls, element: object, fichier: str)-> None:
-    #ouvrir le fichier (creer le stream)
+        #ouvrir le fichier (creer le stream)
         path: Path = Path(fichier)
-        if path.is_file():
-            stream = path.open('w')
-            #serialiser la valeur vers le fichier
-            json.dump(element, stream)
-            #fermer le stream
-            stream.flush()
-            stream.close()
-        else:
-            raise Exception('fichier incorrect')
+        stream = path.open('w')
+        #serialiser la valeur vers le fichier
+        strjson: str = jsonpickle.encode(element)
+        stream.write(strjson)
+        #fermer le stream
+        stream.flush()
+        stream.close()
 
     @classmethod
     def deserialisergarage(cls, fichier: str)-> object:
         #ouvrir le fichier (creer le stream)
         path: Path = Path(fichier)
-        if path.exists():
-            stream = path.open('r')
-            #deserialiser le fichier vers un objet liste de compte
-            liste:list = json.load(stream)
-            #fermer le stream
-            stream.close()
-            #retourner le resultat
-            return liste
-        else:
-            raise Exception('fichier inexistant')
+        stream = path.open('r')
+        #deserialiser le fichier vers un objet etudiant
+        strjson=stream.read()
+        reponse: object = jsonpickle.decode(strjson)
+        #fermer le stream
+        stream.close()
+        #retourner le resultat
+        return reponse
 
     def ajoutervoiture(self, element:Voiture)-> None:
         self.__voitures.append(element)
 
     def getvoiture(self, numvoiture: str)-> Voiture:
-        pass
+        for element in listeVoiture:
+            if element.getnumplaque == numvoiture:
+                return element
+            else:
+                pass
 
     def ajouterreparation(self, numvoiture: str, reparation: object):
-        pass
+        self.__voitures.append(numvoiture, reparation)
 
     def getreparations(self, numvoiture: str)-> list[Reparation]:
-        pass
-
+        for element in Voiture.getreparations():
+            if element.getnumplaque == numvoiture:
+                return element
+            else:
+                pass
 
 
 test1 = Personne("Gsdghsghfgh", "Gsfghfgdhfxg")
 print(test1)
-test2 = Employe("GAFafdsdfg", "Oksdfdg", "okk", "ok")
+test2 = Employe("GAFafdsdfg", "Oksdfdg", 4, "ok")
 print(test2)
 test3 = Client("GAFafdsdfg", "Oksdfdg", "okk", "ok")
 print(test3)
