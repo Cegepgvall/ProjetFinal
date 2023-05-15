@@ -1,5 +1,7 @@
 # Gabriel Vallieres, 1536504
 import re
+import json
+import jsonpickle
 
 class Personne(object):
     # Méthode d'access
@@ -199,7 +201,8 @@ class Garage(object):
         listeVoiture = []
 
     # Méthodes utilitaire
-    def serialisergarage(self, element: object, fichier: str)-> None:
+    @classmethod
+    def serialisergarage(cls, element: object, fichier: str)-> None:
     #ouvrir le fichier (creer le stream)
         path: Path = Path(fichier)
         if path.is_file():
@@ -212,10 +215,10 @@ class Garage(object):
         else:
             raise Exception('fichier incorrect')
 
-
-    def deserialisergarage(self, fichier: str)-> object:
+    @classmethod
+    def deserialisergarage(cls, fichier: str)-> object:
         #ouvrir le fichier (creer le stream)
-        path: Path = Path(self.fichier)
+        path: Path = Path(fichier)
         if path.exists():
             stream = path.open('r')
             #deserialiser le fichier vers un objet liste de compte
@@ -228,6 +231,10 @@ class Garage(object):
             raise Exception('fichier inexistant')
 
     def ajoutervoiture(self, element:Voiture)-> None:
+        self.__voitures.append(element)
+
+    def getvoiture(self, plaquevoiture: str)-> Voiture:
+
 
 
 test1 = Personne("Gsdghsghfgh", "Gsfghfgdhfxg")
