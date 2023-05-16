@@ -1,3 +1,4 @@
+# Gabriel Vallieres, 1536504
 import sys
 import tkinter as tk
 import tkinter.ttk as ttk
